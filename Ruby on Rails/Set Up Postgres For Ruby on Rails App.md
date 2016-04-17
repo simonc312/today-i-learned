@@ -54,13 +54,13 @@ Check out basics on [Digital Ocean's guide](https://www.digitalocean.com/communi
         
         <<: \*default
         
-        database: your\_app\_dev\_db
+        database: your_app_dev_db
 
     test:
         
         <<: \*default
         
-        database: your\_app\_test\_db
+        database: your_app_test_db
 
 7. Create migrations and update schema or insert seed data
 
