@@ -7,3 +7,7 @@ __Ctrl + L__ : Make Multiline selection.
 **Ctrl + Shift + Space** : Select all within scope. (Ex. Select all code inside a for loop)
 	
 **Ctrl + Shift + P** : Open Sublime Console 
+
+Select all matching selection
+Windows/Linux : **Alt + F3**
+MacOSX : **CMD + SHIFT + G**
