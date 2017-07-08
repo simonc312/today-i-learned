@@ -11,3 +11,15 @@ __Ctrl + L__ : Make Multiline selection.
 Select all matching selection
 Windows/Linux : **Alt + F3**
 MacOSX : **CMD + SHIFT + G**
+
+Select space separated blocks and lines
+Windows/Linux : **Shift + Arrows**
+MacOSX : **Shift + Arrows**
+
+Search imported folders by filename
+Windows : **Ctrl + P**
+MacOSX : **CMD + P**
+
+Run file in build system 
+Windows : **Ctrl + B**
+MacOSX : **CMD + B**
