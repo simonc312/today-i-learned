@@ -18,3 +18,6 @@ To remember shortcuts, tricks, and useful bits of information
 
  ## OS 
   - [Mac](https://github.com/simonc312/today-i-learned/tree/master/MacOSX)
+
+ ## Languages
+  - [Javascript](https://github.com/simonc312/today-i-learned/tree/master/Javascript)
