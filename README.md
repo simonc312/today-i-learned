@@ -12,6 +12,8 @@ To remember shortcuts, tricks, and useful bits of information
   - [Sublime](https://github.com/simonc312/today-i-learned/tree/master/Sublime)
   - [Android Studio](https://github.com/simonc312/today-i-learned/tree/master/Android%20Studio)
   - [Vim](https://github.com/simonc312/today-i-learned/tree/master/Vim)
+  - [Visual Studio](https://github.com/simonc312/today-i-learned/tree/master/Visual%20Studio)
+
 
 ## Security
   - [Windows Checksum Util](https://github.com/simonc312/today-i-learned/tree/master/Security/CertUtil%20Checksum)
