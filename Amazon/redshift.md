@@ -1,5 +1,9 @@
 # Redshift
 
+
+<img src="./assets/AWS_Redshift.png" 
+alt="AWS Redshift logo" width="80" />
+
 Redshift is an AWS hosted database as a service based on Postgresql but highly scalable to Petabytes of data. This service is charged per instance/hour and is not billed by amount of data processed per query like Snowflake. Storage and compute resources are lumped together. So if a Redshift cluster is inactive for 23 out of 24 hrs it is billed the same as if it was active all 24 hours. 
 
 
