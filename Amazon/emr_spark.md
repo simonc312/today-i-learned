@@ -1,6 +1,7 @@
 # EMR with Spark
 
-![emr-logo][emr-logo]
+<img src="./assets/AWS_EMR.png" 
+alt="AWS EMR logo" width="80" />
 
 Amazon Elastic MapReduce is a hosted service to help accelerate running data processing applications with packages such as Spark over cluster of ec2 instances.
 
@@ -17,7 +18,5 @@ One limitation I've encountered so far is not being able to run and execute mult
 Another limitation is the inability to cancel an emr step that has begun running through the aws emr api. Their [help docs tell you to ssh into the emr master node and kill the application directly][1]. 
 
 From the developer's perspective, it would have been nice to be able to stream the logs that are written as the spark application is running through the aws emr api. Trying to read from the s3 output logs (must specify s3 bucket during cluster set up) will never be in realtime and usually are only made available after the entire spark application is completed. 
-
-[emr-logo]:(assets/AWS_EMR.png) 
 
 [1]: https://aws.amazon.com/premiumsupport/knowledge-center/cancel-emr-step/
