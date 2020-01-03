@@ -38,7 +38,13 @@ When trying to define windows based on event time, an adjustable *watermark* (ol
 
 - *Kappa architecture* purely streaming pipeline. No reliance on a batch model. Ex. each sink of pipeline is consumed as source of next stage. If there is no stateful processing done - no accumulation of events - and each event is transformed independently - it is inevitable for stream version to perform worse than batch version which can sort and aggregate the batch of data. The book implies that heuristics applied to an online streaming app is generally worse off than a batch app operating with more data.
 
+### Chapter 4. Apache Spark as Stream Processing Engine
 
+- In Memory Usage and short term caching of previous stages and spilling over to secondary storage during peak loads
+- Failure Recovery - of task assigned to executor can be retried from last successful stage to a different executor. 
+- Lazy Evaluation - last output operation triggers execution in cluster
 
+Unlike some stream processors like Apache Flink or Apache Storm, Spark is an equal opportunity processor and delays all data elements for at most one batch interval period before acting on them where the smallest interval can be a 1 second period. Where Spark shines is being able to process large batches of data quickly.
 
+When running a 24/7 streaming application the resiliency of automatic retries on failure is crucical. It also becomes necessary to operate on a multi-tenant model where resources must be shared between streaming applications. 
 
