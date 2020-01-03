@@ -32,3 +32,13 @@ Proper timestamping of data is essential for proper reordering of events from da
 
 When trying to define windows based on event time, an adjustable *watermark* (oldest timestamp accepted) is used to limit the potentially unbounded time it would take to process all events if there are expected events that are missing/dropped or late. Users must carefully decide how to set watermarks as too short a duration would cut off data stream window from meaningful results - while too large a duration would cause excessive delays in waiting for events that are unlikely to appear and prevent further processing.
 
+### Chapter 3
+
+- *Lambda architecture* duplicates a streaming application with a batch equivalent running parallel. Ex. end of day batch sync while streaming updates multiple times a day. The batch dataset also serves as benchmark for performance and data quality especially if tied to revenue. The difficulty of this architecture is having 2 life cycles to maintain and avoid causing duplicates. The book appears to treat this as a transition phase where a legacy batch application is reliable and more predictable - when adding streaming pipeline as experiment.
+
+- *Kappa architecture* purely streaming pipeline. No reliance on a batch model. Ex. each sink of pipeline is consumed as source of next stage. If there is no stateful processing done - no accumulation of events - and each event is transformed independently - it is inevitable for stream version to perform worse than batch version which can sort and aggregate the batch of data. The book implies that heuristics applied to an online streaming app is generally worse off than a batch app operating with more data.
+
+
+
+
+
