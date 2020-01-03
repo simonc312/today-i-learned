@@ -48,3 +48,27 @@ Unlike some stream processors like Apache Flink or Apache Storm, Spark is an equ
 
 When running a 24/7 streaming application the resiliency of automatic retries on failure is crucical. It also becomes necessary to operate on a multi-tenant model where resources must be shared between streaming applications. 
 
+### Chapter 5. Distributed Processing Model
+
+Cluster Managers are responsible for assigning tasks among pool of available healthy workers and securely isolating the user applications if several share infrastructure in a multi-tenant arrangement. 
+
+Kubernetes is the newest cluster manager available to interact with Spark jobs.
+
+Apache Spark includes its own local and standalone cluster manager, but it is not recommended for using in production. It is more useful for Spark developers to work in a barebones environment without bells and whistles. It does not even distribute/provision .jar files to new worker nodes.
+
+Depending on the cluster manager used to orchestrate Spark jobs, the executors can be fulfilled by individual processes, containers, and virtual machines. 
+
+Spark's microbatch approach comes from Bulk Synchronous Parallelism (BSP). There is a split distribution of asynchronous work in parallel defined as a stage by the driver. There is a defined fixed regular time interval where a global check is made like a heartbeat to poll if the stage is completed by all workers.
+
+In contrast, *record one-at-a-time* processing paradigm has lower latency because it reacts without the need to complete some global checkpointing. 
+
+Similar to the comparision with rent vs buy problems, microbatching offers more details on how to proceed in fault tolerance because of checkpointed stages. It can scale up and down resources between stages. 
+
+Spark Streaming's default internal execution model uses a dynamic batch interval that attempts to process new batch as soon as previous one has been processed. 
+
+Processing Model:
+1. Update data read from source - fetching start and end offsets of current batch
+2. logical planning and query planning
+3. launch and schedule computation to update continuous query to refresh
+
+
