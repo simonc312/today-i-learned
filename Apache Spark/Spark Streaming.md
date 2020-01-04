@@ -89,3 +89,50 @@ This is a very useful diagram that highlights how partitions of an RDD are proce
 - Stage failures are retried by shuffling service that is intended to be long running and reliably performs data transfers with a netty backend in Java. It runs as a separate process in all cluster modes.
 - Driver failures can be restarted from last known state through checkingpointing option `sparkContext.setCheckpointDirectory()` to reliable distributed storage. In cluster mode, the driver can be automatically restarted but not in client mode. 
 
+### Chapter 7 Introducing Structured Streaming 
+
+The *Dataset* abstraction in Spark SQL is useful for data with defined schema and offers type-safe collection operations. 
+
+The *Dataframe* API is like Python Pandas and R Dataframes is intended to support modern data engineering and data science practices. 
+
+We can appreciate how uniform the Dataframe API can be applied to both batch and streaming applications. 
+
+Queries with streaming sources must be executed with `writeStream.start()`. It will return a *StreamingQuery* instance to use for pausing, stopping, or starting the stream. Allows us to run multiple streams in same spark session.
+
+The outputMode must be specified by the writeStream:
+- "complete" outputs entire query over table each time new data is processed
+- "update" outputs only rows of table that have been modified or are new since last trigger. Only meaningful for aggregation queries
+- "append" is default mode that only outputs new immutable rows added to result table. Guarantees each result will output only once. If used with an aggregation a watermark needs to be defined.
+
+Not all modes are supported by every type of query. 
+For more information see: https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#output-modes
+
+---
+
+### Chapter 8 - The Structured Streaming Programming Model 
+
+
+> Thanks to the intermediate query representation used in Spark SQL, the performance of the programs is identical regardless of the *language binding* used.
+
+> Creating a streaming *DataFrame* does not result in any data actually being consumed or processed until the stream is materialized. This requires a query...
+
+As a testing data source format, *"rate"* can be used to generate a stream of rows at the rate given by rowsPerSecond option.
+
+API operations that require immediate materialization are not directly supported on streams like:
+- count
+- show
+- take(n)
+- describe
+- distinct
+- foreach
+- sort
+
+Some operations like sort and count require an aggregation query to be defined first. 
+
+Alternative to foreach is output with *foreach sink*.
+Alternative to show is to output with *console sink*.
+
+Specifying the *trigger option* to *ProcessingTime(interval)* dictates the frequency of query results in microbatch model.
+
+Specifying the *trigger option* to *Continuous(checkpoint-interval)* switches execution engine to experimental continuous engine for low-latency processing. 
+
