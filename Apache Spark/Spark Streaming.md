@@ -71,4 +71,21 @@ Processing Model:
 2. logical planning and query planning
 3. launch and schedule computation to update continuous query to refresh
 
+### Chapter 6 Resilience Model
+
+*Resilient Distributed Datasets* (RDDs) are the foundation for strong fault tolerance guarantees. 
+
+<img src="./assets/RDD_DAG.png" 
+alt="Spark Abstraction Layers" width="400" />
+
+User application code is interpreted and used to generate an internal RDD Directed Acyclic Graph (DAG).
+
+<img src="./assets/spark_stage.png" 
+alt="Spark Abstraction Layers" width="400" />
+
+This is a very useful diagram that highlights how partitions of an RDD are processed by different executors. A stage can be comprised of multiple tasks be are marked by boundaries such as operations that require data reshuffling. Stages are executed in sequence.
+
+- Task failures are restarted by new executor with previous stage data fetched by an executor that participated in shuffle or if cached to memory or disk explicitly with persist(). These are the most common failures due to it being the lowest level.
+- Stage failures are retried by shuffling service that is intended to be long running and reliably performs data transfers with a netty backend in Java. It runs as a separate process in all cluster modes.
+- Driver failures can be restarted from last known state through checkingpointing option `sparkContext.setCheckpointDirectory()` to reliable distributed storage. In cluster mode, the driver can be automatically restarted but not in client mode. 
 
