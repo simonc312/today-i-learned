@@ -136,3 +136,30 @@ Specifying the *trigger option* to *ProcessingTime(interval)* dictates the frequ
 
 Specifying the *trigger option* to *Continuous(checkpoint-interval)* switches execution engine to experimental continuous engine for low-latency processing. 
 
+### Chapter 9 - Structured Streaming in Action
+
+A streaming Dataset will return `isStreaming` true.
+
+An Apache Kafka Dataset will have a fixed schema:
+- key
+- value
+- topic
+- partition
+- offset
+- timestamp
+- timestampType
+
+Only when `dataSet.start()` is called will consumption of the stream begin and query operations materialize.
+
+```
+query = dataSet.writeStream
+  .outputMode('append')
+  .format('parquet')
+  .option('path', targetPath)
+  .option('checkpointLocation', checkpointPath)
+  .start()
+```
+
+To output events that have been processed recently, 
+call `query.recentProgress()`. When the results return with attribute `numInputRows` that is nonzero, it means the job is consuming data.
+
