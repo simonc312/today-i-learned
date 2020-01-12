@@ -163,3 +163,45 @@ query = dataSet.writeStream
 To output events that have been processed recently, 
 call `query.recentProgress()`. When the results return with attribute `numInputRows` that is nonzero, it means the job is consuming data.
 
+### Chapter 10 - Structured Streaming Sources
+
+The streaming data source is informed that data has been processed by commiting a given offset. This contract establishes that all data before the committed offset has been processed and subsequent requests will only be for greater offsets. Sources may opt to discard previous data to release resources. 
+
+To recover from eventual failure, offsets are checkpointed to an external storage. 
+
+Data sources must also be relayable in the same order
+and provide a schema. 
+
+Spark Structured Streaming delegates recovery responsibility to the source. 
+
+Examples of unreliable sources are the built-in `Socket` and `Rate` sources.
+
+The book suggests to avoid the complexity of keeping schema definitions up to date when using Scala, to use the inference method when possible. However, that would produce issues down the road in an ETL pipeline. 
+
+The file based streaming data source formats supported are the same as static Dataframe, Dataset, and SQL APIs: 
+- CSV
+- JSON
+- Parquet
+- ORC
+- text
+- textFile
+
+CSV handling of corrupt data or unexpected schema has a `PERMISSIVE` mode option which sets all expected fields to null and stores the entire corrupted value as string with `columnNameOfCorruptRecord` option specified.  
+
+The default `multiLine` option is set to false for the JSON format parser. Spark expects each line of the JSON file to be a different record. 
+
+To create a streaming source from Parquet files, you only need to specify the schema and directory location. 
+
+To create a streaming source from Kafka, you only need to specify the host:port (`kafka.bootstrap.servers`) of the Kafka broker(s), the topic(s) which to subscribe and consume events from, and the `checkpointLocation` to keep track of consumed offsets.  
+
+The `startingOffsets` option is only used the first time a query is made. All future runs will rely on the checkpoint information stored. Clearing the checkpoint contents is required to restart from a specific offset. 
+
+Many additional standard configurations used by kafka can be set by prefixing with `kafka`. Such as `kafka.ssl.truststore.location` or `kafka.ssl.key.password`. 
+
+There are certain configurations that cannot be overridden because they could conflict with internal process of the source. 
+- `auto.offset.reset`
+- `enable.auto.commit`
+- `group.id`
+- `key.deserializer`
+- `value.deserializer`
+- `interceptor.classes`
