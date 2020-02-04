@@ -205,3 +205,53 @@ There are certain configurations that cannot be overridden because they could co
 - `key.deserializer`
 - `value.deserializer`
 - `interceptor.classes`
+
+### Chapter 11 - Structured Streaming Sinks
+
+To participate in end to end reliable data delivery, sinks must provide an *idempotent* write operation. 
+
+The combination of a replayable source and an idempotent sink is what allows Structured Streaming to be *exactly once* semantic guarantees. 
+
+Built-in reliable sinks:
+- File sink 
+  - local fs/hdfs/s3 formats are same as File source
+  - these files can become part of a data lake
+  - treat as data at rest
+  - only supports *append* output mode
+  - specify *checkpointLocation* 
+  - specify destionation *path*
+  - specify trigger to avoid generation of many small files
+  - specify data columns as partitions if want to change local default matching number of cores
+  - specify *compression* format (default is None)
+
+- Kafka sink 
+  - continue processing data as stream
+  - when publishing the key determines the partition of topic
+  - similar to distribution key for redshift table
+  - null value key will use round robin assignment 
+  - specify *topic* per data row to implement fan-out approach to sort incoming records for further processing
+  - encoding the payload with a schema definition like with AVRO allows for creation of artifacts in different languages and ensures data can be consumed later on
+
+
+Nonreliable sinks for local development/tests:
+- Memory sink (temporary table that can be queried within same JVM process)
+- Console sink (prints results to stdout)
+
+How to create a custom sink?
+
+The *foreach* sink consists of an API and sink definition that provides access to results of the query execution. The *ForeachWriter* class (must be Serializable else errors will be thrown) contains 3 abstract methods to define:
+- open(partitionId: Long, version: Long): Boolean
+  - called every trigger interval
+  - decide to process the partition offered by returning true
+- process(value: T): Unit
+  - given access to data unit
+  - function must produce side effect such as writing to a DB, calling a REST API
+- close(errorOrNull: Throwable): Unit
+  - null object if output terminated successfully for partition 
+  - called at end of every partition writing operation
+  - must write/commit partition/version combinations already processed successfully
+
+The *ForeachWriter* is executed as separate instances on each node of the cluster that contains a partition of the streaming data. 
+
+### Chapter 12 - Event Time-Based Stream Processing
+
