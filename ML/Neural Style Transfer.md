@@ -22,6 +22,8 @@ It's possible to generate images from sketches to color images if the model has 
 Other approaches to generative images have been explored:
 - https://machinelearningmastery.com/what-is-cyclegan/
 - https://arxiv.org/abs/1703.10593 (original publication 2017)
+- application of DiscoGAN and CycleGAN for designing novel Korean hanbok style dresses
+    - http://www.irphouse.com/ijert19/ijertv12n12_130.pdf
 
 ![disco-gan-sketch](https://images.deepai.org/converted-papers/1703.05192/x14.png)
 
