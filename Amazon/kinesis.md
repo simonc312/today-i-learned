@@ -64,6 +64,29 @@ Classic
 - 2 MB/s at read per shard across all classic consumers
 - 5 API calls per shard across all classic consumers
 
+**SDK**
+GetRecord(s)
+
+**KCL**
+Method: Java first library (available in Go, Python, Ruby, Node, .NET, etc)
+Use Case: read records produced by KPL
+- de-aggregate records, 
+- shard discovery mechanism shared as one "group"
+- checkpointing feature to resume progress with Dynamdb table
+    - one row per shard
+    - sychronizes to determine which consumer application in group to consume 
+    - provision accordingly or use On-Demand
+
+**Kinesis Connector Library**
+Method: Legacy Java Application runs on EC2 (2016)
+Use Case: push Kinesis Stream data to other services like S3, Redshift, Elasticsearch, DynamoDB etc.
+- usefulness replaced by Kinesis Firehose or AWS Lambda 
+
+**AWS Lambda**
+Use Case: lightweight ETL to any destination, trigger alerts in real time
+- has library to de-aggregate records from KPL
+- configurable batch size to read 
+
 Enhanced Fan Out
 - 2 MB/s at read per shard for each EFO consumer
 - No API calls needed (push model)
