@@ -23,7 +23,41 @@ Low latency data stream ingestion (Extract)
 
 ### Producers
 - 1 MB/s or 1000 records/s at write per shard
-- "ProvisionedThroughputException" if exceeded
+- `ProvisionedThroughputException` if exceeded
+
+Data sources:
+**SDK**
+Method: `PutRecord(s)` single or batch HTTP requests
+Use Case: low throughput, higher acceptable latency, simple API, AWS Lambda
+- Available on mobile, etc
+
+
+Other AWS services under the hood use the SDK:
+- cloudwatch logs
+- kinesis analytics writing back to streams
+- aws IoT
+
+**Kinesis Producer Library (KPL)**
+Method: C++ or Java library 
+Use Case: Long running, high performance producers
+- Handles ProvisionedThroughputException errors by retry with exponential backoff
+- Synchronous or Asynchronous API
+- submits metrics to CloudWatch
+- batches by default (write to multiple shards, can aggregate multiple records)
+    - based on `RecordMaxBufferedTime` configuration default 100ms 
+- CON: Kinesis Consumer Library needed to decode and read records or special helper library
+- CON: compression of data not built in 
+
+
+
+**Kinesis Agent**
+Method: Java agent written on top of KPL
+Use Case: runs on servers to collect logs
+- preprocess data before sending to streams (single line, csv to json, etc)
+- route to multiple streams based on directory/files
+- handles file rotation, retry, cloudwatch metrics
+
+- Spark, NiFi, Kafka Connect
 
 ### Consumers
 Classic
