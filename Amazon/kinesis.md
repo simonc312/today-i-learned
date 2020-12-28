@@ -30,6 +30,7 @@ Data sources:
 Method: `PutRecord(s)` single or batch HTTP requests
 Use Case: low throughput, higher acceptable latency, simple API, AWS Lambda
 - Available on mobile, etc
+- latency ~200ms
 
 
 Other AWS services under the hood use the SDK:
@@ -88,8 +89,38 @@ Use Case: lightweight ETL to any destination, trigger alerts in real time
 - configurable batch size to read 
 
 Enhanced Fan Out
+- feature released August 2018
 - 2 MB/s at read per shard for each EFO consumer
 - No API calls needed (push model)
+- subscribeToShard() push data model over HTTP/2
+- Reduced latency ~70 ms
+- Default configuration limits 5 EFO consumers per stream
+
+## Scaling
+
+**Adding Shards or Shard Splitting**
+- increase Stream capacity (1 MB/s data per shard)
+- divide a "hot shard"
+- old shard is closed and deleted once data is expired
+
+**Remove Shards or Shard Merging**
+- decrease capacity to save costs
+- group two shards with low traffic
+
+[UpdateShardCount API Documentation](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_UpdateShardCount.html)
+
+- Auto Scaling not built in yet
+    - expects relying on Auto Scaling + API Gateway + Lambda + storage stage services to trigger UpdateShardCount API
+    - [link to aws auto scaling kinesis article](https://aws.amazon.com/blogs/big-data/scaling-amazon-kinesis-data-streams-with-aws-application-auto-scaling/)
+
+**Limitations**
+- Resharding cannot be done in parallel. 
+    - Ex 1000 shards takes 30K seconds (8.3 hours) to increase to 2000 shards
+- can't scale more than 10 times in 24 hours per stream
+- can't scale up or down more than 2x current shard count per stream
+- default shard limit is 500 for us-west-2 regions
+- 10K shards scaling limit
+
 
 ## Kinesis Analytics
 Processing on real time stream data (Transform)
