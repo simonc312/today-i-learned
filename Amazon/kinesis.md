@@ -156,11 +156,13 @@ Fully managed service to deliver **near** real time streams to specific compatib
     - Splunk
 
 - can work with Lambda for transformation
-- can specify Transformation and Delivery failures to separate S3 bucket
+- can specify optional Transformation and Delivery failures to S3 bucket with error path prefix
+- in exercise for data published from Kinesis Agent to S3 the batches were automatically partitioned by publish date
+    - buffer size translates to S3 file size when data arrives faster than time rules
 
 **Buffer Sizing**
 - accumulates records in buffer
-- based on buffer size and time rules (>= 1 minute)
+- based on buffer size (>=1.2 MB) and time rules (>= 60 seconds and <= 900 seconds)
 - Ex 32 MB or 2 minutes thresholds
 - can automatically increase buffer size to increase throughput
 - no data storage
