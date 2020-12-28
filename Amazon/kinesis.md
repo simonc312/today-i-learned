@@ -96,7 +96,7 @@ Enhanced Fan Out
 - Reduced latency ~70 ms
 - Default configuration limits 5 EFO consumers per stream
 
-## Scaling
+### Scaling
 
 **Adding Shards or Shard Splitting**
 - increase Stream capacity (1 MB/s data per shard)
@@ -121,9 +121,46 @@ Enhanced Fan Out
 - default shard limit is 500 for us-west-2 regions
 - 10K shards scaling limit
 
+### Security
+
+- IAM policies
+- Encryption in flight using HTTPS
+- Encryption at rest using KMS
+- Client Side encryption is manual
+- VPC Endpoints available
+
+
 
 ## Kinesis Analytics
 Processing on real time stream data (Transform)
 
 ## Kinesis Firehose
-Deliver **near** real time streams to sources like S3, Redshift, Splunk (Load)
+Fully managed service to deliver **near** real time streams to specific compatible sources (Load)
+
+- Automatic scaling
+- Data conversions from JSON to Parquet/ORC (only for S3)
+- Supports compression for S3 (GZIP, ZIP, and SNAPPY)
+- Spark can only read from Kinesis Data Streams not Firehose
+- 60 second latency minimum 
+- Data sources:
+    - Kinesis Producer Library and SDK
+    - Kinesis Agent
+    - Kinesis Data Streams
+    - CloudWatch
+    - IoT rules actions
+
+- Data destinations:
+    - S3 
+    - Redshift (COPY command from S3)
+    - ElasticSearch
+    - Splunk
+
+- can work with Lambda for transformation
+- can specify Transformation and Delivery failures to separate S3 bucket
+
+**Buffer Sizing**
+- accumulates records in buffer
+- based on buffer size and time rules (>= 1 minute)
+- Ex 32 MB or 2 minutes thresholds
+- can automatically increase buffer size to increase throughput
+- no data storage
