@@ -5,6 +5,7 @@ Basically a managed Apache Kafka service.
 Use Cases:
 - logs, metrics, IoT data
 - real time streaming
+- mobile or gaming data capture
 
 Benefits:
 - replicates data in 3 availability zones
