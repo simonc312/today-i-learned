@@ -1,0 +1,3 @@
+# Open Redirect Vulnerabilities
+
+Open redirects exploit the trust of a known domain, https://www.google.com/ for example, to lure victims to a malicious website. This can be used in phishing attacks to trick users into believing they are submitting information to the trusted site, when their valuable information is actually going to a malicious site. This also lets attackers distribute malware from the malicious site or steal OAuth tokens. The example shared in the book webhacking 101 is when Shopify would not validate the redirect_url parameter to preview a domain theme and would send the user to any domain provided. 
