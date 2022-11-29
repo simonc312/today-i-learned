@@ -1,0 +1,3 @@
+# Cross Site Scripting
+
+The impact of XSS depends on a variety of factors, including whether it’s stored or reflected, whether cookies are accessible, where the payload executes, and so on. Despite the implications, fixing XSS vulnerabilities is often easy and requires software developers to sanitize user input (just like HTML injection) before rendering it. The book mentions a $10K bug bounty found that allowed an unsanitized img tag to execute javascript when rendered in the Yahoo email client.
