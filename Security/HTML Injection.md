@@ -1,0 +1,3 @@
+# HTML Injection
+
+Allows hackers to render their own html code on a site's page that may allow unsuspecting users to perform actions such as submitting a form to attacker's server prompting username and password reconfirmation. Easy to exploit if a site uses url parameters as input for rendering messages without cleaning. If a website relies on a WYSIWYG component that does not adequately escape URI characters and renders them as HTML, HTML injection is possible.
