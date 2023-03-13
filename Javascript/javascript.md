@@ -37,14 +37,46 @@ Without type coercion:
 
 		false !== 0 !== NaN !== ""
 
+## Symbols
+
+ES6 added Symbol as a new primitive type. Unlike other primitive types such as number, boolean, null, undefined, and string, the symbol type doesn’t have a literal form.
+
+To create a new symbol, you use the global Symbol() function as shown in this example:
+
+	let b = Symbol('beer');
+
+The Symbol() function creates a new unique value each time you call it:
+
+	console.log(Symbol() === Symbol()); // false
+
+The Symbol() function accepts a description as an optional argument. The description argument will make your symbol more descriptive.
+
+The following example creates two symbols:
+
+	pendingStatus = Symbol('pending'),
+    completeStatus = Symbol('complete');
+
+You can access the symbol’s description property using the toString() method.
+
+ES6 provides you with a global symbol registry that allows you to share symbols globally. If you want to create a symbol that will be shared, you use the `Symbol.for()` method instead of calling the `Symbol()` function.
+
+The `Object.getOwnPropertySymbols()` method returns an array of own property symbols from an object.
+
+ES6 provides predefined symbols which are called well-known symbols. The well-known symbols represent the common behaviors in JavaScript. Each well-known symbol is a static property of the Symbol object.
+
+- The Symbol.hasInstance is a symbol that changes the behavior of the instanceof operator
+- The Symbol.iterator specifies whether a function will return an iterator for an object.
+- The Symbol.isConcatSpreadable property is a Boolean value that determines whether an object is added individually to the result of the concat() function.
+- The Symbol.toPrimitive method determines what should happen when an object is converted into a primitive value.
+
 ## Reserved Keywords
 
-break case catch class const continue debugger
-default delete do else enum export extends false
-finally for function if implements import in
-instanceof interface let new null package private
-protected public return static super switch this
-throw true try typeof var void while with yield
+	break case catch class const continue debugger
+	default delete do else enum export extends false
+	finally for function if implements import in
+	instanceof interface let new null package private
+	protected public return static super switch this
+	throw true try typeof var void while with yield async await
 
 ## Browser commands
 
