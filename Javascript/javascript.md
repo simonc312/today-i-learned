@@ -105,3 +105,23 @@ Able to accept variable number of parameters for a function by referencing **arg
 			journal.push(entry);
 		}
 		addEntry ("wake up", "brush teeth", "breakfast burrito", "chase down shuttle" , "read novella", "burn midnight oil");
+
+
+## Dynamic Imports
+
+Relatively new feature more broadly compatible on major browsers by start of 2020. The import() call is a syntax that closely resembles a function call, but import itself is a keyword, not a function. You cannot alias it like const myImport = import, which will throw a SyntaxError. Returns a promise which fulfills to a module namespace object: an object containing all exports from moduleName.
+
+- Importing modules based on user interaction
+- Importing modules for their side effects
+- Importing modules based on browser vs server side environment
+- 
+- Importing modules with a non-literal specifier.
+
+Dynamic imports allow any expression as the module specifier, not necessarily string literals.
+Here, we load 10 modules, /modules/module-0.js, /modules/module-1.js, etc., in parallel, and call the load functions that each one exports.
+
+		Promise.all(
+		Array.from({ length: 10 }).map((_, index) =>
+			import(`/modules/module-${index}.js`),
+		),
+		).then((modules) => modules.forEach((module) => module.load()));
