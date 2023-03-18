@@ -14,10 +14,13 @@ Nonsensical output will never match.
 
 Infinity and -Infinity represent the max and min numbers possible useful as default comparison values. 
 
+## Big Int
+The BigInt data type allows for accurately storing and operating on large (whole) numbers, which prevents errors produced by JavaScript storing numbers as floats. They can either be constructed using the BigInt() constructor (preferably with strings to prevent inaccuracies) or by appending n at the end of a number.
+
 
 ## Strings
 
-replace(substringMatch, substringReplace) function only replaces first occurance before returning.  
+`String.replace(substringMatch, substringReplace)` function only replaces first occurance before returning.  
 		
 		"strings".replace("s", "S") == "Strings"
 
@@ -25,7 +28,10 @@ replace(regexMatchGroup, substringReplace) function replaces all occurances.
 
 		"strings".replace(/s/g,"S") == "StringS"
 
-The /g stands for a global search regex flag. 
+The `/g` stands for a global search regex flag. 
+
+ES2021
+`String.replaceAll()` Replace all instances of a substring in a string, instead of always using a regular expression with the global flag (/g)
 
 ## Booleans
 
@@ -68,6 +74,15 @@ ES6 provides predefined symbols which are called well-known symbols. The well-kn
 - The Symbol.iterator specifies whether a function will return an iterator for an object.
 - The Symbol.isConcatSpreadable property is a Boolean value that determines whether an object is added individually to the result of the concat() function.
 - The Symbol.toPrimitive method determines what should happen when an object is converted into a primitive value.
+
+## Assignment
+
+`||=` assign value only if previous value was 'falsy'
+
+`&&=` assign value only if previous value was 'truthy'
+
+`??=` assign value only if previous value was 'undefined' or 'null'
+
 
 ## Reserved Keywords
 
@@ -157,3 +172,17 @@ Here, we load 10 modules, /modules/module-0.js, /modules/module-1.js, etc., in p
 			import(`/modules/module-${index}.js`),
 		),
 		).then((modules) => modules.forEach((module) => module.load()));
+
+## Adding Error Cause
+
+An optional cause can now be specified for Errors, which allows specifying of the original error when re-throwing it.
+
+	try {
+	try {
+		deliverProduct();
+	} catch (err) {
+		throw new Error('Delivering product failed.', { cause: err });
+	}
+	} catch (err) {
+	console.log(err.cause); // IllegalStateError: product is not ready
+	}
