@@ -253,5 +253,16 @@ The *foreach* sink consists of an API and sink definition that provides access t
 
 The *ForeachWriter* is executed as separate instances on each node of the cluster that contains a partition of the streaming data. 
 
-### Chapter 12 - Event Time-Based Stream Processing
+### Spark 3.2 Improvements
 
+Spark now supports [RocksDB](https://github.com/facebook/rocksdb/wiki/RocksDB-Overview), a persistent key value store for performant state management. RocksDB offers significant boosts in both lookup performance and latency compared to the legacy, in-memory solution. To run your Spark Application with RocksDB add the following configuration setting:
+
+    “spark.sql.streaming.stateStore.providerClass”: “org.apache.spark.sql.execution.streaming.state.RocksDbStateStoreProvider”
+
+
+Koalas, the Spark implementation of the popular Pandas library, has been growing in popularity as the go-to transformation library for PySpark. Koalas will now be bundled with Spark by default, it does not need to be installed as an additional library. This makes it super easy for data scientists used to pandas to transition to spark and take advantage of the distributed processing features for supporting large datasets. [Migration details](https://spark.apache.org/docs/latest/api/python/migration_guide/koalas_to_pyspark.html)
+
+    from pyspark.pandas import read_csv
+    spark_df = read_csv('file_path)
+
+PySpark Pandas now uses [plotly](https://plotly.com/python/) by default. Plotly offers a number of enhancements such as native support for interactively zooming in and out of the graph, as well as recomputing plot views using Spark. If you choose to switch back to matplotlib, you can specify the PySpark plotting library in your Spark config.
