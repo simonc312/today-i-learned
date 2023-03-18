@@ -266,3 +266,18 @@ Koalas, the Spark implementation of the popular Pandas library, has been growing
     spark_df = read_csv('file_path)
 
 PySpark Pandas now uses [plotly](https://plotly.com/python/) by default. Plotly offers a number of enhancements such as native support for interactively zooming in and out of the graph, as well as recomputing plot views using Spark. If you choose to switch back to matplotlib, you can specify the PySpark plotting library in your Spark config.
+
+### Spark 3.3 Improvements & Breaking Changes
+
+Drop support of Python 3.6 - Require 3.7+
+
+upgrades to Kafka 3.1.0
+upgrades log4j 1 to 2
+support for running on Apple Silicon and Java 17
+
+DataStream Writer Trigger new option
+*availableNow* bool, optional
+
+    if set to True, set a trigger that processes all available data in multiple batches then terminates the query. Only one trigger can be set.
+
+solves issue of the driver trying to process all available data in one batch and running into JVM OOM.
