@@ -255,6 +255,8 @@ The *ForeachWriter* is executed as separate instances on each node of the cluste
 
 ### Spark 3.2 Improvements
 
+Support for Session Duration with gap duration parameters. Windows are not fixed duration and extend to a period where no events take place. Next window starts when next event happens.
+
 Spark now supports [RocksDB](https://github.com/facebook/rocksdb/wiki/RocksDB-Overview), a persistent key value store for performant state management. RocksDB offers significant boosts in both lookup performance and latency compared to the legacy, in-memory solution. To run your Spark Application with RocksDB add the following configuration setting:
 
     “spark.sql.streaming.stateStore.providerClass”: “org.apache.spark.sql.execution.streaming.state.RocksDbStateStoreProvider”
@@ -281,3 +283,23 @@ DataStream Writer Trigger new option
     if set to True, set a trigger that processes all available data in multiple batches then terminates the query. Only one trigger can be set.
 
 solves issue of the driver trying to process all available data in one batch and running into JVM OOM.
+
+continued implementation support of more pandas APIs such as
+
+- merge_asof for non-exact joins between dataframes with optional *tolerance* for matching like by time delta period.
+
+Python Pandas UDF Profiler - debugging runtime and memory issues for optimization
+
+ANSI SQL compliance *spark.sql.ansi.enabled* = true
+will return number overflow runtime errors instead overflow value or NULL.
+ANSI SQL mode enabled will throw compile time errors on cast expressions for example between boolean and timestamp types.
+
+Bloom Filter improves to reduce shuffled data writes to disk. Can apply to non-partitioned columns. Doesn't reduce table scan IO. 
+
+Catalyst AQE Adaptive Query Execution can better improve sort merge joins to hash joins under the hood. It can also merge many small partitions together to reduce per file overhead.
+
+Parquet - complex types vectorized reader
+
+Delta Lake 2.0 - Z Order data skipping, min max file metadata filtering, generate column
+
+Future of Spark with Spark Connect and thin client layer to make calls sending unresolved query plans over gRPC from other language frameworks and applications and receive response on result.
