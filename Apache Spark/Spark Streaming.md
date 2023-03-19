@@ -298,7 +298,17 @@ Bloom Filter improves to reduce shuffled data writes to disk. Can apply to non-p
 
 Catalyst AQE Adaptive Query Execution can better improve sort merge joins to hash joins under the hood. It can also merge many small partitions together to reduce per file overhead.
 
-Parquet - complex types vectorized reader
+Parquet - complex types vectorized reader (maps, lists, structs) scans data in batches now available and results in better memory locality and cache utilization.
+
+background - Parquet Components
+- Row level chunks default 128mb typically higher 512mb on HDFS
+- Column level one per column
+- Page level
+
+background - Parquet Page maintain FRI First Row Index and Row Range
+- repetition levels (index of new record)
+- definition levels (nullness)
+- values (of column)
 
 Delta Lake 2.0 - Z Order data skipping, min max file metadata filtering, generate column
 
